@@ -1,0 +1,156 @@
+{% extends 'base.html' %}
+{% block content %}
+  <div class="cls-container cls-padding-32" id="search">
+    <h3 class="cls-border-bottom cls-border-light-grey cls-padding-16 cls-wide">Search:{{keywords}}
+     	<span style="letter-spacing: 0;" class="cls-text-dark-gray cls-medium cls-narrow">
+    	<i>{{num}} results sorted by</i>
+    	<form style="display: inline;" action="{{ url_for('reSort', keywords=keywords) }}" method="post" id="sort_form">
+	    	<label for="sort" class="cls-select">
+	          <select name="sortBy" id="sort"></select>
+	        </label>
+        </form>
+    	</span>
+    </h3>
+  <!-- <div style="min-width:100%;" class="cls-bar cls-white cls-wide cls-padding cls-card-2"> -->
+  	<!-- <div>Filters</div> -->
+  <!-- </div> -->
+  </div>
+<!-- height: 326px; -->
+  {% for item in items %}
+  <div class="cls-container cls-padding cls-border-bottom cls-border-grey">
+    <div style="margin-left: 10%;" class="cls-container cls-left cls-col cls-padding-large cls-quarter">
+      <div style="text-align:center;max-height: 326px;width: 244px;" class="cls-rest cls-round-medium cls-card-4">
+      <a href="{{url_for('info',brand=item.brand,name=item.name)}}" target="_blank">
+        <img style="vertical-align:middle;width: 244px;" src="{{item.key}}" alt="{{item.name}} by {{item.brand}}">
+      </a>
+      </div>
+    </div>
+    <div style="margin-right: 10%;" class="cls-container cls-right cls-col cls-half">
+  <h3 class="cls-border-bottom cls-border-light-grey cls-padding-16">{{item.name}} <span class="cls-text-dark-gray cls-medium"> by </span><span key="brand" class="tag cls-text-dark-gray cls-medium cls-border-bottom">{{item.brand}}</span></h3>
+      <div style="position: relative; float: right; padding: 16px; margin-right: 40px;">
+      <p>Rating:  
+            <span class="cls-capitalize cls-text-gray cls-text-italic">
+            {% if item.rating %}
+            <span class="cls-border-bottom">{{item.rating.score}}</span>
+            {% else %}
+            <span class="cls-border-bottom">0</span>  &emsp;
+            {% endif %}
+            </span><img src="{{url_for('static',filename='images/img/star-on.png')}}">
+      </p>
+      <p>
+            <span class="cls-capitalize cls-text-gray cls-text-italic">
+            {% if item.favors %}
+            <span class="cls-border-bottom">{{item.favors}}</span> Users Favor
+            {% else %}
+            <span class="cls-border-bottom">0</span> Users Favor  &emsp;
+            {% endif %}
+      </p>
+      <p>
+            <span class="cls-capitalize cls-text-gray cls-text-italic">
+            {% if item.reviews %}
+            <span class="cls-border-bottom">{{item.reviews}}</span> User Reviews
+            {% else %}
+            <span class="cls-border-bottom">0</span> User Reviews  &emsp;
+            {% endif %}
+      </p>
+      </div>
+      <div style="position: relative;padding: 16px;">
+      <p>Family: 
+        <span key="properties family" class="tag cls-capitalize cls-text-gray cls-text-italic cls-border-bottom">
+            {{item.properties.family}}
+        </span>
+      </p>
+      <p>Top Note:  
+            <span class="cls-capitalize cls-text-gray cls-text-italic">
+        {% for e in item.properties.note.top %}
+          {% if e == item.properties.note.top[-1] %}
+            <span key="properties note top" class="tag cls-border-bottom">{{e}}</span>
+          {% else %}
+            <span key="properties note top" class="tag cls-border-bottom">{{e}}</span>  &emsp;
+          {% endif %}
+        {% endfor %}
+            </span>
+      </p>
+      <p>Heart Note:  
+            <span class="cls-capitalize cls-text-gray cls-text-italic">
+        {% for e in item.properties.note.heart %}
+          {% if e == item.properties.note.heart[-1] %}
+            <span key="properties note heart" class="tag cls-border-bottom">{{e}}</span>
+          {% else %}
+            <span key="properties note heart" class="tag cls-border-bottom">{{e}}</span>  &emsp;
+          {% endif %}
+        {% endfor %}
+            </span>
+      </p>
+      <p>Base Note:  
+            <span class="cls-capitalize cls-text-gray cls-text-italic">
+        {% for e in item.properties.note.base %}
+          {% if e == item.properties.note.base[-1] %}
+            <span key="properties note base" class="tag cls-border-bottom">{{e}}</span>
+          {% else %}
+            <span key="properties note base" class="tag cls-border-bottom">{{e}}</span>  &emsp;
+          {% endif %}
+        {% endfor %}
+            </span>
+      </p>
+      <p>Flavorist:  
+            <span class="cls-capitalize cls-text-gray cls-text-italic">
+        {% for e in item.properties.flavorist %}
+          {% if e == item.properties.flavorist[-1] %}
+            <span key="properties flavorist" class="tag cls-border-bottom">{{e}}</span>
+          {% else %}
+            <span key="properties flavorist" class="tag cls-border-bottom">{{e}}</span>  &emsp;
+          {% endif %}
+        {% endfor %}
+            </span>
+      </p>
+      <p>Style:  
+            <span class="cls-capitalize cls-text-gray cls-text-italic">
+        {% for e in item.properties.style %}
+          {% if e == item.properties.style[-1] %}
+            <span key="properties style" class="tag cls-border-bottom">{{e}}</span>
+          {% else %}
+            <span key="properties style" class="tag cls-border-bottom">{{e}}</span>  &emsp;
+          {% endif %}
+        {% endfor %}
+            </span>
+      </p>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+
+<script>
+    var sort = document.getElementById('sort');
+  	sort[0] = new Option('Correlation', 'correlation');
+  	sort[1] = new Option('Rating', 'rating');
+    sort[2] = new Option('Favors', 'favors');
+  	sort[3] = new Option('Reviews', 'reviews');
+  	sort[4] = new Option('Brand', 'brand');
+  	sort[5] = new Option('Name', 'name');
+    {% if sortBy %}
+		for(var i = 0; i < 6; i++){
+			if(sort[i].value == '{{sortBy}}'){
+				sort[i].selected = true;
+			}
+		}
+    {% else %}
+    	sort[0].selected = true;
+    {% endif %}
+
+    $(document).ready(function(){
+    	$('#sort').change(function(){
+	    	$('#sort_form').submit();
+	    });
+    });
+
+    var keywords = '{{keywords}}';
+    $(".tag").click(function(){
+        var value = $(this).text();
+        var key = $(this).attr('key');
+        window.location.href= $SCRIPT_ROOT + "/search/filter/" + encodeURIComponent(keywords) + " & " + encodeURIComponent(key) + " & " + encodeURIComponent(value)
+    });
+
+
+</script>
+{% endblock %}

@@ -1,0 +1,7 @@
+{
+    "dev": {
+        "app_function": "run.webapp", 
+        "s3_bucket": "ece1779b1"
+        "parameter_depth" : 1
+    }
+}

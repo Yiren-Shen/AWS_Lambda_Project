@@ -1,0 +1,221 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="cls-content cls-padding" style="max-width:1564px">
+
+  <div class="cls-container cls-padding-32" id="info">
+    <h3 class="cls-border-bottom cls-border-light-grey cls-padding-16"> {{item.name}} <span class="cls-text-gray cls-medium"> by {{item.brand}}</span></h3>
+    <div class="cls-container cls-col cls-twothird cls-large cls-border-bottom">
+    	{% for e in item.properties.description %}
+    		<p>{{e}}</p>
+    	{% endfor %}
+    </div>
+    <div style="width: 33.33%" class="cls-container cls-left cls-col cls-margin-bottom">
+    	<div class="cls-rest cls-round-medium cls-card-4">
+    		<img style="width: 100%" src="{{item.key}}" alt="{{item.name}} by {{item.brand}}">
+    	</div>
+    </div>
+    <div class="cls-container cls-right cls-col cls-twothird cls-border-bottom cls-border-light-grey">
+    	<p>Family: 
+    		<span class="cls-capitalize cls-text-gray cls-text-italic">
+                <span>{{item.properties.family}}</span>
+            </span>
+    	</p>
+    	<p>Top Note:  
+            <span class="cls-capitalize cls-text-gray cls-text-italic">
+    		{% for e in item.properties.note.top %}
+    			{% if e == item.properties.note.top[-1] %}
+    				<span>{{e}}</span>
+    			{% else %}
+    				<span>{{e}}</span>  &emsp;
+    			{% endif %}
+    		{% endfor %}
+            </span>
+    	</p>
+    	<p>Heart Note:  
+            <span class="cls-capitalize cls-text-gray cls-text-italic">
+    		{% for e in item.properties.note.heart %}
+    			{% if e == item.properties.note.heart[-1] %}
+    				<span>{{e}}</span>
+    			{% else %}
+    				<span>{{e}}</span>  &emsp;
+    			{% endif %}
+    		{% endfor %}
+            </span>
+    	</p>
+    	<p>Base Note:  
+            <span class="cls-capitalize cls-text-gray cls-text-italic">
+    		{% for e in item.properties.note.base %}
+    			{% if e == item.properties.note.base[-1] %}
+    				<span>{{e}}</span>
+    			{% else %}
+    				<span>{{e}}</span>  &emsp;
+    			{% endif %}
+    		{% endfor %}
+            </span>
+    	</p>
+    	<p>Flavorist:  
+            <span class="cls-capitalize cls-text-gray cls-text-italic">
+    		{% for e in item.properties.flavorist %}
+    			{% if e == item.properties.flavorist[-1] %}
+    				<span>{{e}}</span>
+    			{% else %}
+    				<span>{{e}}</span>  &emsp;
+    			{% endif %}
+    		{% endfor %}
+            </span>
+    	</p>
+    	<p>Style:  
+            <span class="cls-capitalize cls-text-gray cls-text-italic">
+    		{% for e in item.properties.style %}
+    			{% if e == item.properties.style[-1] %}
+    				<span>{{e}}</span>
+    			{% else %}
+    				<span>{{e}}</span>  &emsp;
+    			{% endif %}
+    		{% endfor %}
+            </span>
+    	</p>
+    </div>
+    <div class="cls-container cls-right cls-col cls-twothird cls-margin-bottom">
+        <h3 cls-border-light-grey cls-padding-16 cls-wide><i>Rating: <span id="score">
+            {% if item.rating %}
+                {{item.rating.score}}
+            {% else %}
+                0
+            {% endif %}
+        </span>
+        <span class="cls-text-dark-gray cls-medium"><i style="font-size: 10px;">
+            <span id="num">
+            {% if item.rating %}
+                {{item.rating.num}}
+            {% else %}
+                0
+            {% endif %}
+            </span> users rated
+            <span id="u_score">
+                {% if hasRated %}
+                    and you rated {{u_score}} stars
+                {% endif %}
+            </span>
+        </i></span></h3>
+        <div style="block" class="cls-container cls-col" id="star"></div>
+    </div>
+    {% if hasFavored %}
+        <div class="cls-container cls-right cls-col cls-twothird">
+            <button class="checkLogin rmfavor cls-button cls-black">Remove From Favorites <i style="font-size: 12px;">({{item.favors}} users favor)</i></button>
+        </div>
+        {% else %}
+        <div class="cls-container cls-right cls-col cls-twothird">
+            <button class="checkLogin favor cls-button cls-black">Add To Favorites <i style="font-size: 12px;">({{item.favors}} users favor)</i></button>
+        </div>
+    {% endif %}
+  <div class="cls-container cls-padding-32">
+    <h4 class="cls-border-bottom cls-border-light-grey cls-padding-16">{{item.reviews}} User Reviews <a href="" class="cls-a" id="writeReview"><i style="font-size: 12px; letter-spacing: 0;" class="checkLogin cls-text-gray">write your review</i></a></h4>
+        <div style="position: relative;left: 32px; width: 69%;display: none;" class="newReview cls-container cls-col cls-border-bottom cls-padding-32">
+            <form action="{{url_for('addreview',brand=item.brand,name=item.name)}}" method="post">
+                <input class="cls-input cls-subsection" type="text" placeholder="Review title" required name="title" autocomplete="off"></input>
+                <textarea style="border-right:1px solid #ccc;" class="cls-input cls-subsection" type="text" placeholder="What do you think..." required name="content" autocomplete="off"></textarea>
+                <div style="line-height: 100%;vertical-align: middle;">
+                    <input style="display: inline;" class="cls-button cls-black" type="submit"></input>
+                    <a href="" class="cls-bar-item cls-a" id="cancel">Cancel</a>
+                </div>
+            </form>
+        </div>
+        {% for comment in item.comments %}
+        <div style="position: relative;left: 32px; width: 69%;" class="reviews cls-container cls-col cls-border-bottom">
+        <h5>{{comment.title}}</h5>
+        <span class="cls-text-gray cls-small"> By {{comment.name.first}} {{comment.name.last}} on {{comment.date}}</span>
+                <p class="cls-medium">{{comment.content}}</p>
+        </div>
+        {% endfor %}
+  </div>
+    </div>
+
+</div>
+
+
+<!-- Raty -->
+<script type="text/javascript">
+    var brand = '{{ item.brand }}';
+    var name = '{{ item.name }}';
+    var score = parseFloat('{{ item.rating.score }}');
+
+	$('#star').raty({
+		size: 24,
+		path:"{{ url_for('static',filename='images/') }}img",
+        click: function(score, evt) {
+           // $(this).find('img').unbind('click');
+           $(this).raty('readOnly', true)
+            var postdata = {
+                'score': score,
+                'brand': brand,
+                'name': name
+            }
+
+            $.post($SCRIPT_ROOT+"/items/rate", postdata, function(data){
+                $('#star').raty('score', data.ret['score']);
+                $('#score').html(data.ret['score']);
+                $('#num').html(data.ret['num']);
+                $('#u_score').html("and you rated " + data.ret['u_score'] + " stars");
+            })
+        },
+    });
+    $('#star').raty('score', score);
+
+    $('#writeReview').click(function(){
+        $('.newReview').show();
+        return false;
+    });
+    $('#cancel').click(function(){
+        $('.newReview').hide();
+        return false;
+    });
+</script>
+
+{% if name == null %}
+<script type="text/javascript">
+    $('#star').raty('readOnly', true);
+    $('.checkLogin').click(function(){
+        alert('Oops, you forgot to login.');
+        return false;
+    });
+</script>
+{% else %}
+<script type="text/javascript">
+    $('.favor').click(function(){
+        window.location.href="{{url_for('addfavor',brand=item.brand,name=item.name)}}";
+    })
+    
+    $('.rmfavor').click(function(){
+        window.location.href="{{url_for('rmfavor',brand=item.brand,name=item.name)}}";
+    })
+</script>
+{% endif %}
+
+{% if hasRated %}
+<script type="text/javascript">
+    $('#star').raty('readOnly', true);
+</script>
+{% endif %}
+
+{% if notLogin %}
+<script type="text/javascript">
+    $(function(){
+        alert('Oops, you forgot to login.');
+    })
+</script>
+{% endif %}
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+

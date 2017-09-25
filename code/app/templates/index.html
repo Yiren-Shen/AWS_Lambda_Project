@@ -1,0 +1,245 @@
+{% extends 'base.html'%}
+{% block content %}
+
+<!-- Header -->
+<header class="cls-display-container cls-content cls-wide" style="max-width:1500px;" id="home">
+  <img class="cls-image" src="{{ url_for('static',filename='images/background.jpg') }}" width="1500" height="800">
+  <div class="cls-display-middle cls-margin-top cls-center">
+    <h1 class="cls-xxlarge cls-text-white"><span class="cls-hide-small cls-text-light-grey cls-text-shadow">Fragrance Community</span></h1>
+  </div>
+</header>
+
+<div class="cls-content cls-padding" style="max-width:1564px">
+
+  <!-- Project Section -->
+  <!-- <div class="cls-container cls-padding-32" id="projects">
+    <h3 class="cls-border-bottom cls-border-light-grey cls-padding-16">Projects</h3>
+  </div>
+
+  <div class="cls-row-padding">
+    <div class="cls-col l3 cls-margin-bottom">
+      <div class="cls-display-container">
+        <div class="cls-display-topleft cls-black cls-padding">Summer House</div>
+        <img src="{{ url_for('static', filename='images/26152145-4309.jpg') }}" alt="House" style="width:100%">
+        <h3>John Doe</h3>
+        <p class="cls-opacity">CEO & Founder</p>
+        <p>Phasellus eget enim eu lectus faucibus vestibulum. Suspendisse sodales pellentesque elementum.</p>
+      </div>
+    </div>
+    <div class="cls-col l3 cls-margin-bottom">
+      <div class="cls-display-container">
+        <div class="cls-display-topleft cls-black cls-padding">Brick House</div>
+        <img src="{{ url_for('static', filename='images/26152145-4309.jpg') }}" alt="House" style="width:100%">
+        <h3>John Doe</h3>
+        <p class="cls-opacity">CEO & Founder</p>
+        <p>Phasellus eget enim eu lectus faucibus vestibulum. Suspendisse sodales pellentesque elementum.</p>
+      </div>
+    </div>
+    <div class="cls-col l3 cls-margin-bottom">
+      <div class="cls-display-container">
+        <div class="cls-display-topleft cls-black cls-padding">Renovated</div>
+        <img src="{{ url_for('static', filename='images/26152145-4309.jpg') }}" alt="House" style="width:100%">
+        <h3>John Doe</h3>
+        <p class="cls-opacity">CEO & Founder</p>
+        <p>Phasellus eget enim eu lectus faucibus vestibulum. Suspendisse sodales pellentesque elementum.</p>
+      </div>
+    </div>
+    <div class="cls-col l3 cls-margin-bottom">
+      <div class="cls-display-container">
+        <div class="cls-display-topleft cls-black cls-padding">Barn House</div>
+        <img src="{{ url_for('static', filename='images/26152145-4309.jpg') }}" alt="House" style="width:100%">
+        <h3>John Doe</h3>
+        <p class="cls-opacity">CEO & Founder</p>
+        <p>Phasellus eget enim eu lectus faucibus vestibulum. Suspendisse sodales pellentesque elementum.</p>
+      </div>
+    </div>
+    <div class="cls-col l3 cls-margin-bottom">
+      <div class="cls-display-container">
+        <div class="cls-display-topleft cls-black cls-padding">Summer House</div>
+        <img src="{{ url_for('static', filename='images/26152145-4309.jpg') }}" alt="House" style="width:99%">
+        <h3>John Doe</h3>
+        <p class="cls-opacity">CEO & Founder</p>
+        <p>Phasellus eget enim eu lectus faucibus vestibulum. Suspendisse sodales pellentesque elementum.</p>
+      </div>
+    </div>
+    <div class="cls-col l3 cls-margin-bottom">
+      <div class="cls-display-container">
+        <div class="cls-display-topleft cls-black cls-padding">Brick House</div>
+        <img src="{{ url_for('static', filename='images/26152145-4309.jpg') }}" alt="House" style="width:99%">
+        <h3>John Doe</h3>
+        <p class="cls-opacity">CEO & Founder</p>
+        <p>Phasellus eget enim eu lectus faucibus vestibulum. Suspendisse sodales pellentesque elementum.</p>
+      </div>
+    </div>
+    <div class="cls-col l3 cls-margin-bottom">
+      <div class="cls-display-container">
+        <div class="cls-display-topleft cls-black cls-padding">Renovated</div>
+        <img src="{{ url_for('static', filename='images/26152145-4309.jpg') }}" alt="House" style="width:99%">
+        <h3>John Doe</h3>
+        <p class="cls-opacity">CEO & Founder</p>
+        <p>Phasellus eget enim eu lectus faucibus vestibulum. Suspendisse sodales pellentesque elementum.</p>
+      </div>
+    </div>
+    <div class="cls-col l3 cls-margin-bottom">
+      <div class="cls-display-container">
+        <div class="cls-display-topleft cls-black cls-padding">Barn House</div>
+        <img src="{{ url_for('static', filename='images/26152145-4309.jpg') }}" alt="House" style="width:99%">
+        <h3>John Doe</h3>
+        <p class="cls-opacity">CEO & Founder</p>
+        <p>Phasellus eget enim eu lectus faucibus vestibulum. Suspendisse sodales pellentesque elementum.</p>
+      </div>
+    </div>
+  </div> -->
+
+  <!-- Sign Up Section -->
+  {% if name == null %}
+  <div class="cls-container cls-padding-32" id="sign-up">
+    <h3 class="cls-border-bottom cls-border-light-grey cls-padding-16 cls-wide">Sign UP</h3>
+    {% if signUpMsg != null %}
+      {% for msg in signUpMsg %}
+      <p> {{msg}} </p>
+      {% endfor %}
+    {% endif %}
+    <form action="{{url_for('sign_up')}}" method="post">
+
+      <!-- <span style="display: block; position: relative; top: 15px; margin-bottom: 15px;" class="cls-wide"> Email Address</span> -->
+      <input class="cls-input cls-section cls-twothird" type="email" placeholder="Email Address" required oninvalid="setCustomValidity('Enter a valid email address. You will use this when you log in.');" oninput="setCustomValidity('');" name="account" autocomplete="off">
+      <!-- You'll get an email with a link to comfirm that the address is yours. -->
+
+      <!-- <span style="display: block; position: relative; top: 15px; margin-bottom: 15px;" class="cls-wide"> Password</span> -->
+      <input class="cls-input cls-section cls-twothird" type="password" pattern="\w{6,21}" placeholder="New Password" required oninvalid="setCustomValidity('Enter a combination of 6-18 numbers and letters as your password.');" oninput="setCustomValidity('');" name="password" autocomplete="off">
+      <input class="cls-input cls-section cls-twothird" type="password" placeholder="Comfirm Password" required oninvalid="setCustomValidity('Comfirm your password.');" oninput="setCustomValidity('');" name="conf_pw" autocomplete="off">
+
+      <!-- <span style="display: block; position: relative; top: 15px; margin-bottom: 15px;" class="cls-wide"> Name</span> -->
+      <input class="cls-input cls-section cls-third" type="text" placeholder="First Name" required oninvalid="setCustomValidity('What is your first name?');" oninput="setCustomValidity('');" name="first_name" autocomplete="off">
+      <input class="cls-input cls-section cls-third" type="text" placeholder="Last Name" required oninvalid="setCustomValidity('What is your last name?');" oninput="setCustomValidity('');" name="last_name" autocomplete="off">
+      <span style="display: block;" class="cls-wide cls-text-dark-grey">{{signup_err_msg}}</span>
+      <button style="display: block;" class="cls-button cls-black cls-section" type="submit">Sign Up</button>
+     </form>
+  </div>
+  {% endif %}
+
+  <!-- Search Section -->
+  <!-- <div class="cls-container cls-padding-32" id="search">
+    <h3 class="cls-border-bottom cls-border-light-grey cls-padding-16 cls-wide"> Search </h3>
+    <form>
+      <div class="cls-bar-input">
+          <img src="{{url_for('static',filename='images/icons/search.png')}}"><input class="cls-input" type="text" name="keywords">
+      </div>
+    </form>
+  </div> -->
+
+  <!-- My Favorites Section -->
+  {% if favorites %}
+  <div class="cls-container cls-padding-32" id="my_favorites">
+    <h3 class="cls-border-bottom cls-border-light-grey cls-padding-16 cls-wide"> My Favorites <a style="letter-spacing: 0;" class="cls-text-dark-gray cls-medium" href="{{url_for('favorList')}}"> view all </a></h3>
+  </div>
+
+  <div class="cls-row-padding">
+    {% for item in favorites %}
+    <div class="cls-col l3 s6 cls-margin-bottom">
+      <div style="width:224px; max-height: 299px;" class="cls-rest cls-round-medium cls-card-4">
+        <a href="{{url_for('info',brand=item.brand,name=item.name)}}" target="_blank">
+          <img src="{{item.key}}" alt="{{item.name}} by {{item.brand}}" style="width:224px;">
+        </a>
+      </div>
+      <h3>{{item.name}}</h3>
+      <p class="cls-opacity">by {{item.brand}}</p>
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  <!-- Top Rated Section -->
+  <div class="cls-container cls-padding-32" id="most_reviews">
+    <h3 class="cls-border-bottom cls-border-light-grey cls-padding-16 cls-wide"> Top Rated </h3>
+  </div>
+
+  <div class="cls-row-padding">
+    {% for item in frags_top_rated %}
+    <div class="cls-cell-top cls-col l3 s6 cls-margin-bottom">
+      <div style="width:224px; max-height: 299px;" class="cls-rest cls-round-medium cls-card-4">
+        <a href="{{url_for('info',brand=item.brand,name=item.name)}}" target="_blank">
+          <img src="{{item.key}}" alt="{{item.name}} by {{item.brand}}" style="width:224px;">
+        </a>
+      </div>
+      <h3 style="margin: 0;margin-top: 5px;">{{item.name}}</h3>
+      <div class="cls-opacity">by {{item.brand}}</div>
+      <div><i>{{item.rating.score}} <img src="{{url_for('static',filename='images/img/star-on.png')}}"></i></div>
+      <!-- <p>Phasellus eget enim eu lectus faucibus vestibulum. Suspendisse sodales pellentesque elementum.</p> -->
+      <!-- <p><button class="cls-button cls-light-grey cls-block">Contact</button></p> -->
+    </div>
+    {% endfor %}
+  </div>
+
+    <!-- Most Reviews Section -->
+  <div class="cls-container cls-padding-32" id="most_reviews">
+    <h3 class="cls-border-bottom cls-border-light-grey cls-padding-16 cls-wide"> Top Favorites </h3>
+  </div>
+
+  <div class="cls-row-padding">
+    {% for item in frags_trend_favors %}
+    <div class="cls-cell-top cls-col l3 s6 cls-margin-bottom">
+      <div style="width:224px; max-height: 299px;" class="cls-rest cls-round-medium cls-card-4">
+        <a href="{{url_for('info',brand=item.brand,name=item.name)}}" target="_blank">
+          <img src="{{item.key}}" alt="{{item.name}} by {{item.brand}}" style="width:224px;">
+        </a>
+      </div>
+      <h3 style="margin: 0;margin-top: 5px;">{{item.name}}</h3>
+      <div class="cls-opacity">by {{item.brand}}</div>
+      <div><i>{{item.favors}} user favors</i></div>
+      <!-- <p>Phasellus eget enim eu lectus faucibus vestibulum. Suspendisse sodales pellentesque elementum.</p> -->
+      <!-- <p><button class="cls-button cls-light-grey cls-block">Contact</button></p> -->
+    </div>
+    {% endfor %}
+  </div>
+
+  <!-- Most Reviews Section -->
+  <div class="cls-container cls-padding-32" id="most_reviews">
+    <h3 class="cls-border-bottom cls-border-light-grey cls-padding-16 cls-wide"> Most Reviews </h3>
+  </div>
+
+  <div class="cls-row-padding">
+    {% for item in frags_most_reviews %}
+    <div class="cls-cell-top cls-col l3 s6 cls-margin-bottom">
+      <div style="width:224px; max-height: 299px;" class="cls-rest cls-round-medium cls-card-4">
+        <a href="{{url_for('info',brand=item.brand,name=item.name)}}" target="_blank">
+          <img src="{{item.key}}" alt="{{item.name}} by {{item.brand}}" style="width:224px;">
+        </a>
+      </div>
+      <h3 style="margin: 0;margin-top: 5px;">{{item.name}}</h3>
+      <div class="cls-opacity">by {{item.brand}}</div>
+      <div><i>{{item.reviews}} user reviews</i></div>
+      <!-- <p>Phasellus eget enim eu lectus faucibus vestibulum. Suspendisse sodales pellentesque elementum.</p> -->
+      <!-- <p><button class="cls-button cls-light-grey cls-block">Contact</button></p> -->
+    </div>
+    {% endfor %}
+  </div>
+
+  <!-- Contact Section -->
+<!--   <div class="cls-container cls-padding-32" id="contact">
+    <h3 class="cls-border-bottom cls-border-light-grey cls-padding-16 cls-wide">Contact</h3>
+    <p>Lets get in touch and talk about your and our next project.</p>
+    <form action="/action_page.php" target="_blank">
+      <input class="cls-input" type="text" placeholder="Name" required name="Name">
+      <input class="cls-input cls-section" type="text" placeholder="Email" required name="Email">
+      <input class="cls-input cls-section" type="text" placeholder="Subject" required name="Subject">
+      <input class="cls-input cls-section" type="text" placeholder="Comment" required name="Comment">
+      <button class="cls-button cls-black cls-section" type="submit">
+        <i class="fa fa-paper-plane"></i> SEND MESSAGE
+      </button>
+    </form>
+  </div> -->
+  
+<!-- End page content -->
+</div>
+
+{% if clickSignUp %}
+<script type="text/javascript">
+  $(function(){
+    location.href='#sign-up';
+  });
+</script>
+{% endif %}
+
+{% endblock %}

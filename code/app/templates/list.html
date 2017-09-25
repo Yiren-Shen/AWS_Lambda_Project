@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% block content %}
+  {% if viewAll %}
+  <div class="cls-container cls-padding-32">
+    <h3 class="cls-border-bottom cls-border-light-grey cls-padding-16 cls-wide"> Fragrances </h3>
+    <span style="letter-spacing: 0;" class="cls-text-dark-gray cls-medium cls-narrow">
+      <i> sorted by</i>
+      <form style="display: inline;" action="{{ url_for('list_sort') }}" method="post" id="sort_form">
+        <label for="sort" class="cls-select">
+          <select name="sortBy" id="sort"></select>
+        </label>
+      </form>
+    </span>
+  </div>
+  {% else %}
+  <div class="cls-container cls-padding-32">
+    <h3 class="cls-border-bottom cls-border-light-grey cls-padding-16 cls-wide"> My Favorites </h3>
+  </div>
+  {% endif %}
+
+  <div class="cls-row-padding">
+    {% for item in items %}
+    <div class="cls-cell-top cls-col l3 s6 cls-margin-bottom">
+      <div style="width:224px; max-height: 299px" class="cls-rest cls-round-medium cls-card-4">
+        <a href="{{url_for('info',brand=item.brand,name=item.name)}}" target="_blank">
+          <img src="{{item.key}}" alt="{{item.name}} by {{item.brand}}" style="width:224px;">
+        </a>
+      </div>
+      <h3 style="margin: 0;margin-top: 5px;">{{item.name}}</h3>
+      <div class="cls-opacity">by {{item.brand}}</div>
+      {% if sortBy == 'rating' %}
+        <div><i>{{item.rating.score}} <img src="{{url_for('static',filename='images/img/star-on.png')}}"></i></div>
+      {% elif sortBy == 'favors' %}
+        <div><i>{{item.favors}} user favors</i></div>
+      {% elif sortBy == 'reviews' %}
+        <div><i>{{item.reviews}} user reviews</i></div>
+      {% endif %}
+    </div>
+    {% endfor %}
+  </div>
+
+<script>
+    var sort = document.getElementById('sort');
+    sort[0] = new Option('Name', 'name');
+    sort[1] = new Option('Brand', 'brand');
+    sort[2] = new Option('Rating', 'rating');
+    sort[3] = new Option('Favors', 'favors');
+    sort[4] = new Option('Reviews', 'reviews');
+    {% if sortBy %}
+    for(var i = 0; i < 5; i++){
+      if(sort[i].value == '{{sortBy}}'){
+        sort[i].selected = true;
+      }
+    }
+    {% else %}
+      sort[0].selected = true;
+    {% endif %}
+
+    $(document).ready(function(){
+      $('#sort').change(function(){
+        $('#sort_form').submit();
+      });
+    });
+</script>
+{% endblock %}

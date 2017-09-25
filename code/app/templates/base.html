@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<title>ECE1779 A2</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+<script src="{{ url_for('static', filename='jquery/jquery-3.2.0.min.js') }}"></script>
+<script src="{{ url_for('static', filename='jquery-raty/jquery.raty.js') }}"></script>
+<script type="text/javascript">$SCRIPT_ROOT = {{ request.script_root|tojson|safe }};</script>
+<!-- <script src="{{ url_for('static', filename='jquery-ui/jquery-ui.js') }}"></script> -->
+<body>
+
+<!-- Navbar (sit on top) -->
+<div class="cls-top">
+  <div style="min-width:1280px;" class="cls-bar cls-white cls-wide cls-padding cls-card-2">
+    <a href="{{url_for('index')}}" class="cls-bar-item cls-button"><b>ECE1779</b> A2</a>
+    <!-- left login form -->
+      {% if name == null %}
+      <div class="cls-left">
+        <form action="{{url_for('login')}}" method="post">
+          <div class="cls-bar-input"><input class="cls-input" type="email" placeholder="Email" name="account" required oninvalid="setCustomValidity('Please enter a valid email.');" oninput="setCustomValidity('');" autocomplete="off"></div>
+           <!-- pattern="[a-zA-Z]+" -->
+          <div class="cls-bar-input"><input class="cls-input" type="password" pattern="\w{6,21}" placeholder="Password" name="password" required oninvalid="setCustomValidity('Please enter a valid password.');" oninput="setCustomValidity('');" autocomplete="off"></div>
+          <div class="cls-bar-input"><input class="cls-button cls-dark-grey" type="submit" name="" value="Log In"></div>
+        </form>
+      <div class="cls-left">
+        <p style="letter-spacing: 0; margin: 0; margin-left: 10px; font-style: italic; padding: 0; max-width: 370px" class="cls-bar-item">{{login_err_msg}}</p>
+      </div class="cls-left cls-center ">
+      </div>
+    <!-- Float links to the right. Hide them on small screens -->
+      <!-- <div class="cls-left"> -->
+        <!-- <a style="letter-spacing: 0;" class="cls-bar-item cls-a">Sign Up</a> -->
+      <!-- </div> -->
+      {% else %}
+      <div class="cls-left cls-center ">
+        <p style="margin: 0;" class="cls-bar-item">Hi, {{name.first}} {{name.last}}.</p>
+        <div class="cls-bar-input"><input class="cls-button cls-dark-grey" type="submit" onclick="location=&quot;{{url_for('logout')}}&quot;" value="Log Out"></div>
+      </div>
+      {% endif %}
+      <!-- Search -->
+      <div style="width: 25%;" class="cls-right cls-center ">
+        <form id="search" action="" method="post">
+          <div style="margin-top: 8px;" class="cls-bar-input"><img class="cls-left" src="{{url_for('static',filename='images/img/search.png')}}"></div>
+          <div style="width:90%;" class="cls-bar-input"><input class="cls-input" type="text" placeholder="Search" name="keywords" required oninvalid="setCustomValidity('Enter some keywords.');" oninput="setCustomValidity('');"  autocomplete="off"></div>
+        </form>
+      </div>
+      <!-- Navbar Menu -->
+      <div class="cls-left cls-hide-small">
+        {% if name == null %}
+          <a style="letter-spacing: 0;" href="{{url_for('index')+'#sign-up'}}" class="cls-bar-item cls-a">Sign Up</a>
+        {% endif %}
+        <!-- <a href="#search" class="cls-bar-item cls-a">Search</a> -->
+        <!-- <a href="#most_reviews" class="cls-bar-item cls-a">Most Reviews</a> -->
+        <!-- <a href="#top_rated" class="cls-bar-item cls-a">Top Rated</a> -->
+        <!-- <a href="#contact" class="cls-bar-item cls-a">Contact</a> -->
+      </div>
+      <div class="cls-right cls-hide-small">
+        <a href="{{url_for('list')}}" class="cls-bar-item cls-a">Fragrances</a>
+      </div>
+  </div>
+</div>
+
+<!-- Page content -->
+{% block content %}
+{% endblock %}
+
+<!-- Footer -->
+<footer class="cls-center cls-black cls-padding-16">
+  <p>Yiren Shen & Lihua Shen</p>
+  <p>E-mail: yiren.shen@mail.utoronto.ca & lihua.shen@mail.utoronto.ca</p>
+</footer>
+
+
+<script>
+  var submitFlag = false; 
+
+  $('form').submit(function(){
+    if(submitFlag == true){
+      return false;
+    }
+    submitFlag = true;
+    return true;
+  })
+
+  $('#search').submit(function(){
+    var keywords=$('input[name=keywords]').val();
+    keywordsUrl =encodeURIComponent(keywords);
+    window.location.href=$SCRIPT_ROOT + "/search/" + keywordsUrl;
+    return false;
+  });
+</script>
+
+</body>
+</html>
